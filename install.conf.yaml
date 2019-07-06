@@ -9,6 +9,8 @@
     ~/.login: login
     ~/.bash_profile: bash_profile
     ~/.bashrc: bashrc
+      if: backup.sh ~/.bashrc
+      force: true
     ~/.zshrc: zshrc
 
 - shell:
