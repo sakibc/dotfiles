@@ -2,7 +2,7 @@
 
 FILE_NAME=$1
 
-if [ ! -L $FILE_NAME ]; then
+if [ -f $FILE_NAME ] && [ ! -L $FILE_NAME ]; then
   NEW_FILE_NAME=$FILE_NAME.backup
   mv $FILE_NAME $NEW_FILE_NAME
 
