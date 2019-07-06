@@ -8,7 +8,8 @@
     ~/.dotfiles: ''
     ~/.login: login
     ~/.bash_profile: bash_profile
-    ~/.bashrc: bashrc
+    ~/.bashrc:
+      path: bashrc
       if: backup.sh ~/.bashrc
       force: true
     ~/.zshrc: zshrc
