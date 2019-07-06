@@ -3,7 +3,7 @@
 PATH_TO_ZSH=command -v zsh >/dev/null 2>&1
 
 preferred_shell=
-if [ -n $PATH_TO_ZSH ] && [ -x $PATH_TO_ZSH ]; then
+if [ ! -z $PATH_TO_ZSH ] && [ -x $PATH_TO_ZSH ]; then
   preferred_shell=$PATH_TO_ZSH
 fi
 
