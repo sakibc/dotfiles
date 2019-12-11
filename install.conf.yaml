@@ -5,14 +5,17 @@
 - clean: ['~']
 
 - link:
-    ~/.dotfiles: ''
-    ~/.login: login
     ~/.bash_profile: bash_profile
     ~/.bashrc:
       path: bashrc
       if: "backup.sh ~/.bashrc && echo 'true' || echo 'false'"
       force: true
-    ~/.config/nvim/init.vim: init.vim
+    ~/.config/nvim/init.vim:
+      path: init.vim
+      create: true
+    ~/.dotfiles: ''
+    ~/.login: login
+    ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
 
 - shell:
