@@ -16,7 +16,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
 
 " Appearance
-Plug 'iCyMind/NeoSolarized'
+Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -26,16 +26,17 @@ call plug#end()
 " NERDTree toggle
 nmap <C-n> :NERDTreeToggle<CR>
 
+" Configure theme
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
 " Configure vim airline
 let g:airline#extensions#tabline#enabled = 1
 
 " Show just the filename in tab list
 let g:airline#extensions#tabline#fnamemod = ':t'
-
-" Set NeoSolarized as colorscheme
-" set termguicolors
-set background=light
-colorscheme NeoSolarized
 
 " if hidden is not set, TextEdit might fail.
 set hidden

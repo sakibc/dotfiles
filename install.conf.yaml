@@ -21,3 +21,4 @@
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
   - [./shell_setup.sh, Installing shell plugins]
+  - [./vim_setup.sh, Installing vim plugins]
