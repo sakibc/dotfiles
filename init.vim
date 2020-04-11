@@ -3,6 +3,9 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 
+" Enable mouse support
+:set mouse=a
+
 " Show line numbers
 set number
 

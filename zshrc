@@ -21,7 +21,7 @@ ZSH_THEME="robbyrussell"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
@@ -110,22 +110,19 @@ if [[ -d "$NVM_DIR" ]]; then
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 fi
 
-alias timeout="gtimeout"
+export PYENV_DIR="$HOME/.pyenv"
+if [[ -d "$PYENV_DIR" ]]; then
+  export PATH="~/.pyenv/bin:$PATH"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
 
-export PATH="~/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-# if [[ "$OSTYPE" == "linux-gnu" ]]; then
-#     if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-#         source /etc/profile.d/vte.sh
-#     fi
-
-#    alias dropbox="~/Applications/dropbox.py"
-#elif [[ "$OSTYPE" == "darwin"* ]]; then
-#    alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
-#    alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
-#fi
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+  alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+  alias timeout="gtimeout"
+fi
 
 #alias g++='g++-8'
 
@@ -133,9 +130,6 @@ eval "$(pyenv virtualenv-init -)"
 
 # export PATH="$HOME/.jenv/bin:$PATH"
 # eval "$(jenv init -)"
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/"
