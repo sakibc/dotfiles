@@ -118,6 +118,7 @@ if [[ -d "$PYENV_DIR" ]]; then
 fi
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  export PATH="$HOME/Applications/ctags:$PATH"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
   alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
