@@ -51,6 +51,9 @@ let g:airline#extensions#tabline#enabled = 1
 " Show just the filename in tab list
 let g:airline#extensions#tabline#fnamemod = ':t'
 
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
 " if hidden is not set, TextEdit might fail.
 set hidden
 
