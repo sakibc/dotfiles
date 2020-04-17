@@ -10,3 +10,7 @@ fi
 
 # idempotent
 nvim --headless +PlugInstall +qa
+
+echo "YouCompleteMe has a compiled component. Please go to ~/.local/share/nvim/plugged/YouCompleteMe and run"
+echo "  python3 install.py --all"
+echo "to complete the installation."
