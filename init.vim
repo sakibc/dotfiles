@@ -30,10 +30,13 @@ Plug 'vim-airline/vim-airline-themes'
 " Initialize plugin system
 call plug#end()
 
-" Configure theme
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
+" Configure theme, if supported
+let output = system("~/.config/is_mosh/is_mosh")
+if v:shell_error
+  if filereadable(expand("~/.vimrc_background"))
+    let base16colorspace=256
+    source ~/.vimrc_background
+  endif
 endif
 
 " Tagbar Toggle
