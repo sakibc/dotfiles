@@ -11,6 +11,10 @@ fi
 # idempotent
 nvim --headless +PlugInstall +qa
 
+# TODO: automatically run compilation
+# TODO: install nvim python requirement
+# TODO: install universal ctags
+
 echo "YouCompleteMe has a compiled component. Please go to ~/.local/share/nvim/plugged/YouCompleteMe and run"
 echo "  python3 install.py --all"
 echo "to complete the installation."

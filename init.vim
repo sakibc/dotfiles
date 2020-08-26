@@ -19,7 +19,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'jiangmiao/auto-pairs'
 Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar'
-Plug 'ycm-core/youcompleteme'
+" Plug 'ycm-core/youcompleteme'
 Plug 'bfrg/vim-cpp-modern'
 
 " Appearance
