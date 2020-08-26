@@ -119,6 +119,7 @@ fi
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   export PATH="$HOME/Applications/ctags:$PATH"
+  export PATH="$HOME/.linuxbrew/bin:$PATH"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
   alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
@@ -138,5 +139,9 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 
+# Allow core dumps
+ulimit -c unlimited
 
 export GOPATH="$HOME/Documents/go"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
