@@ -88,6 +88,12 @@ export EDITOR='nvim'
 #   export EDITOR='mvim'
 # fi
 
+# Export preferred editor if installed
+which nvim &>/dev/null
+if [[ $? == 0 ]]; then
+  export EDITOR='nvim'
+fi
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -119,7 +125,9 @@ fi
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   export PATH="$HOME/Applications/ctags:$PATH"
+  export PATH="$HOME/.linuxbrew/bin:$PATH"
 
+  # systemctl fix for zsh
   _systemctl_unit_state() {
   typeset -gA _sys_unit_state
   _sys_unit_state=( $(__systemctl list-unit-files "$PREFIX*" | awk '{print $1, $2}') ) }
@@ -137,11 +145,22 @@ fi
 # export PATH="$HOME/.jenv/bin:$PATH"
 # eval "$(jenv init -)"
 
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-       eval "$("$BASE16_SHELL/profile_helper.sh")"
+# Allow core dumps
+ulimit -c unlimited
 
+# check if mosh
+if [[ -f $HOME/.config/is_mosh/is_mosh ]]; then
+  IS_MOSH=$($HOME/.config/is_mosh/is_mosh)
+fi
+
+# Base16 Shell
+if [[ ! -n $IS_MOSH ]] || [[ $IS_MOSH == 0 ]]; then
+  BASE16_SHELL="$HOME/.config/base16-shell/"
+  [ -n "$PS1" ] && \
+      [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+          eval "$("$BASE16_SHELL/profile_helper.sh")"
+fi
 
 export GOPATH="$HOME/Documents/go"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

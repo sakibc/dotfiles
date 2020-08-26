@@ -16,7 +16,10 @@
     ~/.dotfiles: ''
     ~/.login: login
     ~/.tmux.conf: tmux.conf
-    ~/.zshrc: zshrc
+    ~/.zshrc:
+      path: zshrc
+      if: "backup.sh ~/.zshrc && echo 'true' || echo 'false'"
+      force: true
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
