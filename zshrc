@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH="$HOME/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -76,6 +76,12 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# Add time to default prompt
+if [[ -z $ZSH_CUSTOM_PROMPT_SET ]]; then
+  RPROMPT='[%D{%L:%M:%S}] '$RPROMPT
+  export ZSH_CUSTOM_PROMPT_SET=true
+fi
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -83,7 +89,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
-export EDITOR='nvim'
+# export EDITOR='nvim'
 # else
 #   export EDITOR='mvim'
 # fi
@@ -167,4 +173,6 @@ fi
 
 export GOPATH="$HOME/Documents/go"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ -f ~/.fzf.zsh ]; then
+  source ~/.fzf.zsh
+fi
