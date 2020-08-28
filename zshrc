@@ -120,9 +120,13 @@ fi
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   export PATH="$HOME/Applications/ctags:$PATH"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
+  export BASH_ENV="$HOME/.bashrc"
   alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
   alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
   alias timeout="gtimeout"
+  alias grep="ggrep"
+  export PATH="/usr/local/opt/ruby/bin:$PATH"
+  export PATH="/usr/local/lib/ruby/gems/2.7.0/bin:$PATH"
 fi
 
 #alias g++='g++-8'

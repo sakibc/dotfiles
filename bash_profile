@@ -14,3 +14,4 @@ if [ -n "$preferred_shell" ]; then
 elif [ -f $HOME/.bashrc ]; then
   source $HOME/.bashrc
 fi
+export PATH="$HOME/.cargo/bin:$PATH"

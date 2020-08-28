@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  grep() {
+    ggrep "$@"
+  }
+  export -f grep
+fi
+
 # If not running interactively, don't do anything
 case $- in
   *i*) ;;
