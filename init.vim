@@ -14,6 +14,9 @@ set mouse=a
 " Show line numbers
 set number
 
+" Disable preview for completion
+set completeopt-=preview
+
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.local/share/nvim/plugged')
@@ -24,8 +27,10 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'jiangmiao/auto-pairs'
 Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar'
-Plug 'ycm-core/youcompleteme'
+" Plug 'ycm-core/youcompleteme'
 Plug 'bfrg/vim-cpp-modern'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 
 " Appearance
 Plug 'chriskempson/base16-vim'
@@ -35,17 +40,20 @@ Plug 'vim-airline/vim-airline-themes'
 " Initialize plugin system
 call plug#end()
 
-" Configure theme
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
+" Configure theme, if supported
+let output = system("~/.config/is_mosh/is_mosh")
+if v:shell_error
+  if filereadable(expand("~/.vimrc_background"))
+    let base16colorspace=256
+    source ~/.vimrc_background
+  endif
 endif
 
 " Tagbar Toggle
-nmap <C-t> :TagbarToggle<CR>
+nmap <silent> <C-t> :TagbarToggle<CR>
 
 " NERDTree toggle
-nmap <C-n> :NERDTreeToggle<CR>
+nmap <silent> <C-n> :NERDTreeToggle<CR>
 
 " Fix highlighting issue in NERDTree
 hi NERDTreeFile ctermfg=7
@@ -68,3 +76,6 @@ set nowritebackup
 
 " always show signcolumns
 set signcolumn=yes
+
+" YCM settings
+let g:ycm_always_populate_location_list = 1
