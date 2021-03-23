@@ -24,4 +24,8 @@
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
   - [./shell_setup.sh, Installing shell plugins]
+  -
+    command: ./mac_setup.sh
+    stdout: true
+    description: Setting up mac environment...
   - [./vim_setup.sh, Installing vim plugins]

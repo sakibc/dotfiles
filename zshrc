@@ -122,13 +122,6 @@ if [[ -d "$NVM_DIR" ]]; then
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 fi
 
-export PYENV_DIR="$HOME/.pyenv"
-if [[ -d "$PYENV_DIR" ]]; then
-  export PATH="~/.pyenv/bin:$PATH"
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
-
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   export PATH="$HOME/Applications/ctags:$PATH"
   export PATH="$HOME/.linuxbrew/bin:$PATH"
@@ -176,3 +169,18 @@ export GOPATH="$HOME/Documents/go"
 if [ -f ~/.fzf.zsh ]; then
   source ~/.fzf.zsh
 fi
+
+export PYENV_ROOT="$HOME/.pyenv"
+if [ -d $PYENV_ROOT ]; then
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+fi
+
+# Created by `userpath` on 2021-01-27 00:00:18
+# for pipx
+export PATH="$PATH:/Users/sakibchowdhury/.local/bin"
+
+export PATH="/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="/usr/local/sbin:$PATH"
