@@ -1,0 +1,118 @@
+---
+- name: set up home directory
+  hosts: all
+
+  tasks:
+  - name: download dotfiles
+    git:
+      repo: https://github.com/sakibc/dotfiles.git
+      dest: ~/dotfiles
+
+  - name: create backup directory for existing dotfiles
+    file:
+      path: ~/dotfiles/old
+      state: directory
+
+  - name: check for existing .bashrc
+    stat:
+      path: ~/.bashrc
+    register: sym_bashrc
+
+  - name: get full path of dotfile .bashrc
+    stat:
+      path: ~/dotfiles/bashrc
+    register: path_bashrc
+
+  - name: back up if exists non-symlink .bashrc
+    command: mv -f ~/.bashrc ~/dotfiles/old/bashrc
+    when: >
+      sym_bashrc.stat.islnk is defined and
+      (sym_bashrc.stat.islnk == False or
+      sym_bashrc.stat.lnk_source != path_bashrc.stat.path)
+
+  - name: check for existing .zshrc
+    stat:
+      path: ~/.zshrc
+    register: sym_zshrc
+
+  - name: get full path of dotfile .zshrc
+    stat:
+      path: ~/dotfiles/zshrc
+    register: path_zshrc
+
+  - name: back up if exists non-symlink .zshrc
+    command: mv -f ~/.zshrc ~/dotfiles/old/zshrc
+    when: >
+      sym_zshrc.stat.islnk is defined and
+      (sym_zshrc.stat.islnk == False or
+      sym_zshrc.stat.lnk_source != path_zshrc.stat.path)
+
+  - name: symlink dotfiles
+    file:
+      src: '~/dotfiles/{{ item.src }}'
+      dest: '~/{{ item.dest }}'
+      state: link
+    loop:
+      - { src: bash_profile, dest: .bash_profile }
+      - { src: bashrc, dest: .bashrc }
+      - { src: init.vim, dest: .config/nvim/init.vim }
+      - { src: login, dest: .login }
+      - { src: tmux.conf, dest: .tmux.conf }
+      - { src: zshrc, dest: .zshrc }
+
+  - name: init shell using external script
+    command: ~/dotfiles/shell_setup.sh
+
+  - name: init vim using external script
+    command: ~/dotfiles/vim_setup.sh
+
+# - name: set up arch linux installation as root
+  # hosts: arch_linux
+  # become: yes
+
+  # tasks:
+  # - name: update pacman
+    # pacman:
+      # update_cache: yes
+      # upgrade: yes
+
+  # - name: install packages
+    # pacman:
+      # name:
+        # - dhcpcd
+        # - efibootmgr
+        # - git
+        # - grub
+        # - man
+        # - neovim
+        # - openssh
+        # - os-prober
+        # - python
+        # - sudo
+        # - vi
+        # - zsh
+      # state: present
+
+# - name: set up arch linux installation
+  # hosts: arch_linux
+  # become: no
+
+  # vars:
+    # zsh_user: "{{ ansible_user_id }}"
+
+  # tasks:
+  # - name: change user shell to zsh
+    # become: yes
+    # user:
+      # name: "{{ zsh_user }}"
+      # shell: /bin/zsh
+
+  # - name: install base16 shell colour script
+    # ansible.builtin.git:
+      # repo: https://github.com/chriskempson/base16-shell.git
+      # dest: ~/.config/base16-shell
+
+  # - name: download my dotfiles into place
+    # ansible.builtin.git:
+      # repo: https://github.com/sakibc/dotfiles.git
+      # dest: ~/dotfiles
