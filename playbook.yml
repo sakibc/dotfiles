@@ -8,10 +8,13 @@
       repo: https://github.com/sakibc/dotfiles.git
       dest: ~/dotfiles
 
-  - name: create backup directory for existing dotfiles
+  - name: create necessary directories
     file:
-      path: ~/dotfiles/old
+      path: "~/{{ item.path }}"
       state: directory
+    loop:
+      - { path: dotfiles/old }
+      - { path: .config/nvim }
 
   - name: check for existing .bashrc
     stat:
@@ -30,6 +33,23 @@
       (sym_bashrc.stat.islnk == False or
       sym_bashrc.stat.lnk_source != path_bashrc.stat.path)
 
+  - name: check for existing .bash_profile
+    stat:
+      path: ~/.bash_profile
+    register: sym_bash_profile
+
+  - name: get full path of dotfile .bash_profile
+    stat:
+      path: ~/dotfiles/bash_profile
+    register: path_bash_profile
+
+  - name: back up if exists non-symlink .bash_profile
+    command: mv -f ~/.bash_profile ~/dotfiles/old/bash_profile
+    when: >
+      sym_bash_profile.stat.islnk is defined and
+      (sym_bash_profile.stat.islnk == False or
+      sym_bash_profile.stat.lnk_source != path_bash_profile.stat.path)
+      
   - name: check for existing .zshrc
     stat:
       path: ~/.zshrc
@@ -60,11 +80,11 @@
       - { src: tmux.conf, dest: .tmux.conf }
       - { src: zshrc, dest: .zshrc }
 
-  - name: init shell using external script
-    command: ~/dotfiles/shell_setup.sh
+  # - name: init shell using external script
+    # command: ~/dotfiles/shell_setup.sh
 
-  - name: init vim using external script
-    command: ~/dotfiles/vim_setup.sh
+  # - name: init vim using external script
+    # command: ~/dotfiles/vim_setup.sh
 
 # - name: set up arch linux installation as root
   # hosts: arch_linux
