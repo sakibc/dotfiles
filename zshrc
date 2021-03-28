@@ -14,6 +14,7 @@ antigen bundle colored-man-pages
 antigen bundle fzf
 antigen bundle nvm
 antigen bundle pip
+antigen bundle pyenv
 antigen bundle sudo
 antigen bundle amstrad/oh-my-matrix
 antigen bundle rtakasuke/zsh-duration --branch=main
@@ -73,6 +74,9 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   export PATH="/usr/local/opt/ruby/bin:$PATH"
   export PATH="/usr/local/lib/ruby/gems/2.7.0/bin:$PATH"
 fi
+
+# Export user path
+export PATH="$PATH:$HOME/.local/bin"
 
 # The following lines were added by compinstall
 zstyle :compinstall filename '/Users/sakibchowdhury/.zshrc'
