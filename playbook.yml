@@ -3,6 +3,11 @@
   hosts: all
 
   tasks:
+  - name: check if zsh is available
+    command: grep -q zsh /etc/shells
+    register: zsh_status
+    failed_when: zsh_status.rc > 1
+
   - name: download dotfiles
     git:
       repo: https://github.com/sakibc/dotfiles.git
@@ -15,23 +20,6 @@
     loop:
       - { path: dotfiles/old }
       - { path: .config/nvim }
-
-  - name: check for existing .bashrc
-    stat:
-      path: ~/.bashrc
-    register: sym_bashrc
-
-  - name: get full path of dotfile .bashrc
-    stat:
-      path: ~/dotfiles/bashrc
-    register: path_bashrc
-
-  - name: back up if exists non-symlink .bashrc
-    command: mv -f ~/.bashrc ~/dotfiles/old/bashrc
-    when: >
-      sym_bashrc.stat.islnk is defined and
-      (sym_bashrc.stat.islnk == False or
-      sym_bashrc.stat.lnk_source != path_bashrc.stat.path)
 
   - name: check for existing .bash_profile
     stat:
@@ -74,7 +62,6 @@
       state: link
     loop:
       - { src: bash_profile, dest: .bash_profile }
-      - { src: bashrc, dest: .bashrc }
       - { src: init.vim, dest: .config/nvim/init.vim }
       - { src: login, dest: .login }
       - { src: tmux.conf, dest: .tmux.conf }
