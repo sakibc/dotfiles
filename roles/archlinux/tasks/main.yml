@@ -1,0 +1,62 @@
+---
+- name: update pacman
+  become: yes
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
+- name: install system programs
+  become: yes
+  pacman:
+    name:
+      - dhcpcd
+      - python
+      - xdg-user-dirs
+      - polkit
+      - sudo
+      - vi
+      - openssh
+      - man
+      - git
+    state: present
+
+- name: install environment programs
+  become: yes
+  pacman:
+    name:
+      - base-devel
+      - zsh
+      - neovim
+      - fzf
+      - lynx
+      - gpm
+    state: present
+
+- name: install GRUB packages
+  become: yes
+  pacman:
+    name:
+      - efibootmgr
+      - grub
+      - os-prober
+      - intel-ucode
+    state: present
+  notify: regenerate GRUB config
+
+- name: set up common environment
+  include_role:
+    name: unix_env
+    allow_duplicates: no
+
+- name: set up Linux environment
+  include_role:
+    name: linux_env
+    allow_duplicates: no
+
+- name: start systemd services
+  systemd:
+    name: '{{ item.name }}'
+    enabled: yes
+    state: started
+  loop:
+    - { name: gpm }

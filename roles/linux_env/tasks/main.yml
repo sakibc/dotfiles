@@ -1,0 +1,9 @@
+---
+- name: change user shell to zsh
+  become: yes
+  user:
+    name: "{{ zsh_user }}"
+    shell: /bin/zsh
+
+- name: set up user directories
+  command: xdg-user-dirs-update

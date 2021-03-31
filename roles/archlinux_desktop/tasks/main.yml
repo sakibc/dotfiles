@@ -1,0 +1,16 @@
+---
+- name: set up graphical environment
+  become: yes
+  pacman:
+    name:
+      - xorg
+      - pulseaudio
+      - pamixer
+    state: present
+
+- name: install desktop programs
+  become: yes
+  pacman:
+    name:
+      - chromium
+    state: present

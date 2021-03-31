@@ -1,0 +1,26 @@
+---
+- name: install AMDGPU drivers
+  pacman:
+    name:
+      - mesa
+      - libva-mesa-driver
+      - xf86-video-amdgpu
+      - radeontop
+    state: present
+
+- name: configure AMDGPU
+  copy:
+    src: 20-amdgpu.conf
+    dest: /etc/X11/xorg.conf.d/20-amdgpu.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: early KMS
+  lineinfile:
+    state: present
+    dest: /etc/mkinitcpio.conf
+    backrefs: yes
+    regexp: '^(MODULES=(?!.*amdgpu)\([^\)]*)(\).*)'
+    line: '\1 amdgpu\2'
+  notify: generate initramfs

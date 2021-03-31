@@ -1,0 +1,8 @@
+---
+- name: regenerate GRUB config
+  become: yes
+  command: grub-mkconfig -o /boot/grub/grub.cfg
+
+- name: generate initramfs
+  become: yes
+  command: mkinitcpio -P

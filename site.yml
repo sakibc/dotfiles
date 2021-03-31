@@ -1,0 +1,19 @@
+---
+- name: Learn about hosts
+  hosts: all
+
+  tasks:
+  - name: Classify hosts depending on their OS distribution
+    group_by:
+      key: os_{{ ansible_facts['distribution'] }}
+
+- name: set up macOS development environment
+  hosts: os_MacOSX
+  roles:
+    - unix_env
+
+- name: set up Arch Linux installation
+  hosts: os_Archlinux
+  roles: 
+    - archlinux_desktop
+    - amdgpu_archlinux

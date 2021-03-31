@@ -51,9 +51,6 @@ if [[ ! -n $IS_MOSH ]] || [[ $IS_MOSH == 0 ]]; then
           eval "$("$BASE16_SHELL/profile_helper.sh")"
 fi
 
-# Go setup
-export GOPATH="$HOME/Documents/go"
-
 # System-specific configuration
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   export PATH="$HOME/Applications/ctags:$PATH"
@@ -75,8 +72,11 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   export PATH="/usr/local/lib/ruby/gems/2.7.0/bin:$PATH"
 fi
 
-# Export user path
+# Exports
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="/usr/local/sbin:$PATH"
+export BYOBU_PREFIX=/usr/local
+export GOPATH="$HOME/Documents/go"
 
 # The following lines were added by compinstall
 zstyle :compinstall filename '/Users/sakibchowdhury/.zshrc'
