@@ -1,7 +1,13 @@
 ---
+- name: mount EFI partition
+  become: yes
+  command: mount /dev/nvme0n1p1 /efi
+  listen: "configure GRUB"
+
 - name: regenerate GRUB config
   become: yes
   command: grub-mkconfig -o /boot/grub/grub.cfg
+  listen: "configure GRUB"
 
 - name: generate initramfs
   become: yes

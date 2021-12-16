@@ -1,0 +1,25 @@
+---
+- name: install programs
+  become: yes
+  apt:
+    name:
+      - zsh
+      - neovim
+      - fzf
+      - tmux
+      - git
+      - python3
+      - python3-pip
+      - cmake
+      - tree
+    state: present
+
+- name: set up common environment
+  include_role:
+    name: unix_env
+    allow_duplicates: no
+
+- name: set up Linux environment
+  include_role:
+    name: linux_env
+    allow_duplicates: no

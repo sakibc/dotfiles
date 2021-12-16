@@ -1,6 +1,7 @@
 # Preconfigure antigen and plugins
 # ANTIGEN_LOG=~/.antigen.log
 export NVM_LAZY=true
+export ZSH_PYENV_QUIET=true
 
 # Load Antigen
 source ~/.antigen.zsh
@@ -9,21 +10,19 @@ source ~/.antigen.zsh
 antigen use oh-my-zsh
 
 # Load plugins
+antigen bundle nvm
+antigen bundle pyenv
+
 antigen bundle command-not-found
 antigen bundle colored-man-pages
 antigen bundle fzf
-antigen bundle nvm
 antigen bundle pip
-antigen bundle pyenv
 antigen bundle sudo
-antigen bundle amstrad/oh-my-matrix
 antigen bundle rtakasuke/zsh-duration --branch=main
 antigen bundle zsh-interactive-cd
-antigen bundle zsh_reload
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-completions
-antigen bundle zsh-users/zsh-history-substring-search
 
 # Set theme
 antigen theme robbyrussell
@@ -75,12 +74,5 @@ fi
 # Exports
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="/usr/local/sbin:$PATH"
-export BYOBU_PREFIX=/usr/local
-export GOPATH="$HOME/Documents/go"
-
-# The following lines were added by compinstall
-zstyle :compinstall filename '/Users/sakibchowdhury/.zshrc'
-
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
+export PATH="$PATH:$HOME/go/bin"
+export PYTHON_CONFIGURE_OPTS="--enable-framework"

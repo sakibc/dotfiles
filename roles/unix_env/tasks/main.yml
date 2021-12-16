@@ -36,3 +36,16 @@
 
 - name: initialize vim-plug
   command: nvim --headless +PlugInstall +qa
+
+- name: install Neovim Python component
+  command: pip install --user pynvim
+
+- name: compile YouCompleteMe
+  command: python3 install.py --clangd-completer
+  args:
+    chdir: ~/.local/share/nvim/plugged/youcompleteme
+    creates: ~/.local/share/nvim/plugged/youcompleteme/compiled_by_ansible
+- name: indicate YouCompleteMe was compiled
+  file:
+    path: ~/.local/share/nvim/plugged/youcompleteme/compiled_by_ansible
+    state: touch

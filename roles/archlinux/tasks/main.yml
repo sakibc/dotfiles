@@ -9,15 +9,18 @@
   become: yes
   pacman:
     name:
-      - dhcpcd
       - python
+      - python-pip
       - xdg-user-dirs
       - polkit
       - sudo
       - vi
+      - nano
+      - cmake
       - openssh
       - man
       - git
+      - htop
     state: present
 
 - name: install environment programs
@@ -27,21 +30,23 @@
       - base-devel
       - zsh
       - neovim
+      - go
       - fzf
       - lynx
       - gpm
+      - tmux
     state: present
 
-- name: install GRUB packages
-  become: yes
-  pacman:
-    name:
-      - efibootmgr
-      - grub
-      - os-prober
-      - intel-ucode
-    state: present
-  notify: regenerate GRUB config
+# - name: install GRUB packages
+  # become: yes
+  # pacman:
+    # name:
+      # - efibootmgr
+      # - grub
+      # - os-prober
+      # - intel-ucode
+    # state: present
+  # notify: "configure GRUB"
 
 - name: set up common environment
   include_role:
@@ -53,10 +58,11 @@
     name: linux_env
     allow_duplicates: no
 
-- name: start systemd services
-  systemd:
-    name: '{{ item.name }}'
-    enabled: yes
-    state: started
-  loop:
-    - { name: gpm }
+# - name: start systemd services
+  # become: yes
+  # systemd:
+    # name: '{{ item.name }}'
+    # enabled: yes
+    # state: started
+  # loop:
+    # - { name: gpm }

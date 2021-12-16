@@ -1,0 +1,103 @@
+---
+- name: install dependencies
+  become: yes
+  pacman:
+    name:
+      - python-virtualenv
+      - nginx-mainline
+    state: present
+
+- name: set up octoprint user
+  become: yes
+  ansible.builtin.user:
+    name: octoprint
+    groups: uucp
+    password: $6$5AKn9KNTuLbOFazi$Zd378ba0ySXeJpcjKUIjHQQtbP6XZ4kRpbFoiAL8e8O4YQhNa9ArMXRHceWUqNmPHtM3m9uFDAMtJSuFnq9Vt.
+
+- name: allow octoprint user to restart octoprint
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    insertafter: '^root.*$'
+    regexp: '^octoprint.*$'
+    line: 'octoprint ALL=(ALL) NOPASSWD: /usr/bin/poweroff, /usr/bin/reboot, /usr/bin/systemctl restart octoprint.service'
+
+- name: set up octoprint
+  become: yes
+  ansible.builtin.pip:
+    virtualenv: /home/octoprint/OctoPrint
+    name: OctoPrint
+
+- name: install octoprint.service
+  become: yes
+  ansible.builtin.copy:
+    src: octoprint.service
+    dest: /etc/systemd/system
+    owner: root
+    group: root
+  notify:
+    - start octoprint
+
+# - name: set up webcam
+- name: set up klipper
+  become: yes
+  ansible.builtin.git:
+    repo: https://github.com/Klipper3d/klipper
+    dest: /home/octoprint/klipper
+
+- name: remove AUR dependency from klipper
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /home/octoprint/klipper/scripts/install-arch.sh
+    regexp: '.*\$AURCLIENT.*'
+    state: absent
+
+# - name: install klipper
+  # become: yes
+  # ansible.builtin.command:
+    # cmd: /home/octoprint/klipper/scripts/install-arch.sh
+    # chdir: /home/octoprint
+    # creates: /home/octoprint/klippy/*
+
+
+- name: copy over printer config
+  become: yes
+  ansible.builtin.copy:
+    src: printer.cfg
+    dest: /home/octoprint/printer.cfg
+
+- name: fix permissions
+  become: yes
+  ansible.builtin.file:
+    recurse: yes
+    state: directory
+    path: '/home/octoprint/{{ item.dir }}'
+    owner: octoprint
+    group: octoprint
+  loop:
+    - { dir: OctoPrint }
+    - { dir: klipper }
+
+- name: fix file permissions
+  become: yes
+  ansible.builtin.file:
+    state: file
+    path: '/home/octoprint/printer.cfg'
+    owner: octoprint
+    group: octoprint
+
+- name: copy nginx config
+  become: yes
+  ansible.builtin.copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+
+- name: start nginx
+  become: yes
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+

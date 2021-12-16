@@ -10,10 +10,38 @@
 - name: set up macOS development environment
   hosts: os_MacOSX
   roles:
-    - unix_env
+    - macos
+  tags:
+    - init
+    - macos
 
 - name: set up Arch Linux installation
   hosts: os_Archlinux
   roles: 
-    - archlinux_desktop
-    - amdgpu_archlinux
+    - archlinux
+  tags:
+    - init
+    - archlinux
+
+- name: set up Ubuntu development environment
+  hosts: os_Ubuntu
+  roles:
+    - ubuntu
+  tags:
+    - init
+    - ubuntu
+
+- name: set up Ubuntu server on my desktop computer
+  hosts: ubuntu_server
+  roles:
+    - ubuntu_server
+  tags:
+    - server_init
+    - ubuntu
+
+- name: set up octoprint on workshop
+  hosts: octoprint
+  roles:
+    - octoprint
+  tags:
+    - octoprint

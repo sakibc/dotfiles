@@ -1,0 +1,26 @@
+---
+- name: install programs
+  community.general.homebrew:
+    name:
+      - neovim
+      - zsh
+      - fzf
+      - tmux
+      - git
+      - pyenv
+    state: present
+    update_homebrew: yes
+
+- name: install applications
+  community.general.homebrew_cask:
+    name:
+      - iterm2
+      - google-chrome
+      - rectangle
+      - spotify
+    state: present
+
+- name: set up common environment
+  include_role:
+    name: unix_env
+    allow_duplicates: no

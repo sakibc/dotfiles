@@ -1,22 +1,25 @@
 ---
 - name: install AMDGPU drivers
+  become: yes
   pacman:
     name:
-      - mesa
       - libva-mesa-driver
       - xf86-video-amdgpu
       - radeontop
+      - clinfo
     state: present
 
-- name: configure AMDGPU
-  copy:
-    src: 20-amdgpu.conf
-    dest: /etc/X11/xorg.conf.d/20-amdgpu.conf
-    owner: root
-    group: root
-    mode: '0644'
+# - name: configure AMDGPU
+  # become: yes
+  # copy:
+    # src: 20-amdgpu.conf
+    # dest: /etc/X11/xorg.conf.d/20-amdgpu.conf
+    # owner: root
+    # group: root
+    # mode: '0644'
 
 - name: early KMS
+  become: yes
   lineinfile:
     state: present
     dest: /etc/mkinitcpio.conf

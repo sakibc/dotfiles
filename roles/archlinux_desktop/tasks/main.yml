@@ -6,11 +6,38 @@
       - xorg
       - pulseaudio
       - pamixer
+      - plasma-meta
+      - dolphin
+      - kvantum-qt5
+      - latte-dock
+      - libdbusmenu-glib
+      - code
+      - cups
+      - hplip
+      - flatpak
     state: present
 
-- name: install desktop programs
+- name: install additional desktop programs
   become: yes
   pacman:
     name:
-      - chromium
+      - firefox
+      - alacritty
+      - inkscape
     state: present
+
+- name: start SDDM
+  become: yes
+  systemd:
+    name: sddm
+    enabled: yes
+    state: started
+
+- name: set graphical target
+  become: yes
+  command: systemctl set-default graphical.target
+
+# - name: copy over desktop wallpapers
+  # copy:
+    # src: ~/Documents-cloud/Wallpapers
+    # dest: ~/Wallpapers

@@ -1,0 +1,7 @@
+---
+- name: start octoprint
+  become: yes
+  systemd:
+    name: octoprint
+    state: started
+    enabled: yes
